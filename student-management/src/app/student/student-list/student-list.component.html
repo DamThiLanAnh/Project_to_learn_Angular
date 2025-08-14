@@ -1,1 +1,29 @@
-<p>student-list works!</p>
+<div class="container mt-4">
+        <h2 class="mb-4">Danh sách sinh viên</h2>
+        <table class="table table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Email</th>
+              <th>Avatar</th>
+              <th>Địa chỉ</th>
+              <th>Ngày sinh</th>
+              <th>Số điện thoại</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>{{ student.id }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.email }}</td>
+              <td>
+                <img [src]="student.avatar" alt="Avatar" width="50" height="50" />
+              </td>
+              <td>{{ student.address }}</td>
+              <td>{{ student.dateOfBirth }}</td>
+              <td>{{ student.phone }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
