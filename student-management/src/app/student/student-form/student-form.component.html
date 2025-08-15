@@ -1,1 +1,40 @@
-<p>student-form works!</p>
+<form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="row g-3 mb-4">
+  <div class="col-md-4">
+    <input type="text" class="form-control" formControlName="name" placeholder="Tên sinh viên">
+    <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="text-danger">
+      Tên không được để trống
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <input type="email" class="form-control" formControlName="email" placeholder="Email">
+    <div *ngIf="studentForm.get('email')?.invalid && studentForm.get('email')?.touched" class="text-danger">
+      Email không hợp lệ
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <input type="file" class="form-control" formControlName="avatar" placeholder="Tải ảnh đại diện">
+  </div>
+
+  <div class="col-md-4">
+    <input type="text" class="form-control" formControlName="address" placeholder="Địa chỉ">
+  </div>
+
+  <div class="col-md-4">
+    <input type="date" class="form-control" formControlName="dob">
+  </div>
+
+  <div class="col-md-4">
+    <input type="tel" class="form-control" formControlName="phone" placeholder="Số điện thoại">
+    <div *ngIf="studentForm.get('phone')?.invalid && studentForm.get('phone')?.touched" class="text-danger">
+      Số điện thoại không hợp lệ
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-primary w-100" [disabled]="studentForm.invalid">
+      Thêm
+    </button>
+  </div>
+</form>

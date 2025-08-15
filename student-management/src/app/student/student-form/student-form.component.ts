@@ -1,15 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {StudentModel} from '../student.model';
 
 @Component({
   selector: 'app-student-form',
-  templateUrl: './student-form.component.html',
-  styleUrls: ['./student-form.component.scss']
+  templateUrl: './student-form.component.html'
 })
-export class StudentFormComponent implements OnInit {
+export class StudentFormComponent {
+  @Output() add = new EventEmitter<StudentModel>();
+  studentForm: FormGroup;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) {
+    this.studentForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      avatar: [''],
+      address: [''],
+      dob: ['', Validators.required],
+      phone: ['', [Validators.pattern(/^[0-10]{9,11}$/)]]
+    });
   }
 
+  onSubmit() {
+    if (this.studentForm.valid) {
+      this.add.emit(this.studentForm.value);
+      this.studentForm.reset();
+    }
+  }
 }
