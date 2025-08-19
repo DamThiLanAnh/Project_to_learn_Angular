@@ -9,6 +9,7 @@ import {StudentModel} from '../student.model';
 })
 export class StudentListComponent implements OnInit {
   students: StudentModel[] = [];
+  page: number = 1;
 
   constructor(private studentService: StudentService) {
   }
@@ -17,11 +18,23 @@ export class StudentListComponent implements OnInit {
     this.loadStudents();
   }
 
-  loadStudents(): void {
-    this.studentService.getStudents().subscribe((data: StudentModel[]) => {
+  searchTerm: string = '';
+  filteredStudents: StudentModel[] = [];
+
+  loadStudents() {
+    this.studentService.getStudents().subscribe(data => {
       this.students = data;
+      this.filteredStudents = data; // ban đầu hiển thị tất cả
     });
   }
+
+  filterStudents() {
+    this.filteredStudents = this.students.filter(student =>
+      student.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
 
   handleAddStudent(student: StudentModel) {
     this.studentService.addStudent(student).subscribe(() => {

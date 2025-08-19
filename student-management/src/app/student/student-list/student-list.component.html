@@ -1,6 +1,13 @@
 <div class="container mt-4">
   <h2 class="mb-4">Danh sách sinh viên</h2>
+
   <app-student-form (add)="handleAddStudent($event)"></app-student-form>
+
+  <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên hoặc email"
+           [(ngModel)]="searchTerm" (input)="filterStudents()">
+  </div>
+
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
     <tr>
@@ -14,12 +21,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of students">
+    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }">
       <td>{{ student.id }}</td>
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>
       <td>
-        <img [src]="student.avatar" alt="Avatar" width="50" height="50"/>
+        <img [src]="student.avatar" alt="Avatar" width="50" height="50" class="rounded"/>
       </td>
       <td>{{ student.address }}</td>
       <td>{{ student.dateOfBirth }}</td>
@@ -27,4 +34,5 @@
     </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>

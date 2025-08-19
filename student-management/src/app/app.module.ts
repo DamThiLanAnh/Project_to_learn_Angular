@@ -12,7 +12,6 @@ import {StudentModule} from './student/student.module';
     StudentModule,
     BrowserModule,
     AppRoutingModule,
-
   ],
   providers: [],
   bootstrap: [AppComponent]
