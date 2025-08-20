@@ -1,0 +1,10 @@
+<div *ngIf="student" class="card" style="width: 20rem; margin: auto; margin-top: 20px;">
+  <img [src]="student.avatar" class="card-img-top" alt="Avatar">
+  <div class="card-body">
+    <h5 class="card-title">{{ student.name }}</h5>
+    <p class="card-text">Email: {{ student.email }}</p>
+    <p class="card-text">Địa chỉ: {{ student.address }}</p>
+    <p class="card-text">Ngày sinh: {{ student.dateOfBirth }}</p>
+    <p class="card-text">Số điện thoại: {{ student.phone }}</p>
+  </div>
+</div>

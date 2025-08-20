@@ -17,7 +17,10 @@ export class StudentFormComponent {
       avatar: [''],
       address: [''],
       dob: ['', Validators.required],
-      phone: ['', [Validators.pattern(/^[0-10]{9,11}$/)]]
+      phone: ['',  [
+        Validators.required,
+        Validators.pattern(/^0\d{9,10}$/)
+      ]]
     });
   }
 

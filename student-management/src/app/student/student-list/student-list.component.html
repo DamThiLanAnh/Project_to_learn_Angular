@@ -1,3 +1,4 @@
+<!-- Main content -->
 <div class="container mt-4">
   <h2 class="mb-4">Danh sách sinh viên</h2>
 
@@ -21,7 +22,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }">
+    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }"
+        (click)="goToDetail(student.id)" style="cursor: pointer;">
       <td>{{ student.id }}</td>
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>

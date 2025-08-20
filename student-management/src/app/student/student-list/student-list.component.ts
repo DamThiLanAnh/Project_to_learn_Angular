@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {StudentService} from '../student.service';
 import {StudentModel} from '../student.model';
 
@@ -10,21 +11,23 @@ import {StudentModel} from '../student.model';
 export class StudentListComponent implements OnInit {
   students: StudentModel[] = [];
   page: number = 1;
+  searchTerm: string = '';
+  filteredStudents: StudentModel[] = [];
 
-  constructor(private studentService: StudentService) {
+  constructor(
+    private studentService: StudentService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
     this.loadStudents();
   }
 
-  searchTerm: string = '';
-  filteredStudents: StudentModel[] = [];
-
   loadStudents() {
     this.studentService.getStudents().subscribe(data => {
       this.students = data;
-      this.filteredStudents = data; // ban đầu hiển thị tất cả
+      this.filteredStudents = data;
     });
   }
 
@@ -35,10 +38,14 @@ export class StudentListComponent implements OnInit {
     );
   }
 
-
   handleAddStudent(student: StudentModel) {
     this.studentService.addStudent(student).subscribe(() => {
       this.loadStudents();
     });
+  }
+
+  goToDetail(studentId: string) {
+    // console.log('goToDetail:', studentId);
+    this.router.navigate(['/students', studentId]);
   }
 }
