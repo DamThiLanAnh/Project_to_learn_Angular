@@ -7,8 +7,9 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {StudentFormComponent} from './student-form/student-form.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
+import { StudentUpdateComponent } from './student-update/student-update.component';
 @NgModule({
-  declarations: [StudentListComponent, StudentFormComponent, StudentDetailComponent],
+  declarations: [StudentListComponent, StudentFormComponent, StudentDetailComponent, StudentUpdateComponent],
   imports: [
     CommonModule,
     StudentRoutingModule,

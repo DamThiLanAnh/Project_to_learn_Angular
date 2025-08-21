@@ -1,0 +1,39 @@
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chỉnh sửa sinh viên</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editForm" (ngSubmit)="onSave()">
+          <div class="mb-3">
+            <label>Tên</label>
+            <input type="text" class="form-control" formControlName="name">
+          </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input type="email" class="form-control" formControlName="email">
+          </div>
+          <div class="mb-3">
+            <label>Avatar</label>
+            <input type="text" class="form-control" formControlAvatar="avatar" placeholder="Avatar URL">
+          </div>
+          <div class="mb-3">
+            <label>Địa chỉ</label>
+            <input type="text" class="form-control" formControlName="address">
+          </div>
+          <div class="mb-3">
+            <label>Số điện thoại</label>
+            <input type="text" class="form-control" formControlName="phone">
+          </div>
+          <div class="mb-3">
+            <label>Ngày sinh</label>
+            <input type="date" class="form-control" formControlName="dateOfBirth">
+          </div>
+          <button type="submit" class="btn btn-success">Lưu</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

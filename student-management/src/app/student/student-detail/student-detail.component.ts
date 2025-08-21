@@ -26,4 +26,5 @@ export class StudentDetailComponent implements OnInit {
       });
     }
   }
+
 }

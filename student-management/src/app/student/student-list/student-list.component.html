@@ -1,4 +1,3 @@
-<!-- Main content -->
 <div class="container mt-4">
   <h2 class="mb-4">Danh sách sinh viên</h2>
 
@@ -7,6 +6,10 @@
   <div class="mb-3">
     <input type="text" class="form-control" placeholder="Tìm kiếm theo tên hoặc email"
            [(ngModel)]="searchTerm" (input)="filterStudents()">
+  </div>
+
+  <div class="mb-3">
+    <button class="btn btn-success" (click)="exportCSV()">Export CSV</button>
   </div>
 
   <table class="table table-bordered table-striped">
@@ -19,22 +22,30 @@
       <th>Địa chỉ</th>
       <th>Ngày sinh</th>
       <th>Số điện thoại</th>
+      <th>Hành động</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }"
-        (click)="goToDetail(student.id)" style="cursor: pointer;">
-      <td>{{ student.id }}</td>
-      <td>{{ student.name }}</td>
-      <td>{{ student.email }}</td>
-      <td>
+    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }">
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.id }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.name }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.email }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">
         <img [src]="student.avatar" alt="Avatar" width="50" height="50" class="rounded"/>
       </td>
-      <td>{{ student.address }}</td>
-      <td>{{ student.dateOfBirth }}</td>
-      <td>{{ student.phone }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.address }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.dateOfBirth }}</td>
+      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.phone }}</td>
+      <td>
+        <button class="btn btn-primary btn-sm me-2" (click)="openEdit(student)">Edit</button>
+        <a [routerLink]="['/students', student.id]" class="btn btn-info btn-sm">Chi tiết</a>
+      </td>
     </tr>
     </tbody>
   </table>
+
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+  <!-- Move update component outside table -->
+  <app-student-update [student]="selectedStudent" (update)="handleUpdate($event)"></app-student-update>
 </div>

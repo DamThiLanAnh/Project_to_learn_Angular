@@ -12,19 +12,15 @@
       Email không hợp lệ
     </div>
   </div>
-
   <div class="col-md-4">
-    <input type="file" class="form-control" formControlName="avatar" placeholder="Tải ảnh đại diện">
+    <input type="text" class="form-control" formControlName="avatar" placeholder="Avatar URL">
   </div>
-
   <div class="col-md-4">
     <input type="text" class="form-control" formControlName="address" placeholder="Địa chỉ">
   </div>
-
   <div class="col-md-4">
     <input type="date" class="form-control" formControlName="dob">
   </div>
-
   <div class="col-md-4">
     <input type="tel" class="form-control" formControlName="phone" placeholder="Số điện thoại">
     <div *ngIf="studentForm.get('phone')?.invalid && studentForm.get('phone')?.touched" class="text-danger">
