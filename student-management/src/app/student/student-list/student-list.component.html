@@ -5,7 +5,7 @@
 
   <div class="mb-3">
     <input type="text" class="form-control" placeholder="Tìm kiếm theo tên hoặc email"
-           [(ngModel)]="searchTerm" (input)="filterStudents()">
+           [(ngModel)]="searchTerm">
   </div>
 
   <div class="mb-3">
@@ -26,26 +26,30 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }">
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.id }}</td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.name }}</td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.email }}</td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">
+    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }"
+        (click)="goToDetail(student.id)">
+      <td style="cursor: pointer;">{{ student.id }}</td>
+      <td style="cursor: pointer;">{{ student.name }}</td>
+      <td style="cursor: pointer;">{{ student.email }}</td>
+      <td style="cursor: pointer;">
         <img [src]="student.avatar" alt="Avatar" width="50" height="50" class="rounded"/>
       </td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.address }}</td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.dateOfBirth }}</td>
-      <td (click)="goToDetail(student.id)" style="cursor: pointer;">{{ student.phone }}</td>
+      <td style="cursor: pointer;">{{ student.address }}</td>
+      <td style="cursor: pointer;">{{ student.dateOfBirth }}</td>
+      <td style="cursor: pointer;">{{ student.phone }}</td>
       <td>
-        <button class="btn btn-primary btn-sm me-2" (click)="openEdit(student)">Edit</button>
-        <a [routerLink]="['/students', student.id]" class="btn btn-info btn-sm">Chi tiết</a>
+        <button class="btn btn-primary btn-sm me-2" (click)="openEdit(student, $event)">Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="openDeleteModal(student, $event)">Delete</button>
       </td>
     </tr>
     </tbody>
   </table>
+  <app-confirm-dialog
+    [title]="'Xoá sinh viên'"
+    [message]="'Bạn có chắc chắn muốn xoá sinh viên này không?'"
+    [confirmText]="'Xoá'"
+    [cancelText]="'Hủy'"
+    (confirm)="confirmDelete()"
+  ></app-confirm-dialog>
 
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
-
-  <!-- Move update component outside table -->
-  <app-student-update [student]="selectedStudent" (update)="handleUpdate($event)"></app-student-update>
 </div>

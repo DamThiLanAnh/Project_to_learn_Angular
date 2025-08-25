@@ -10,10 +10,10 @@ import {StudentModel} from '../student.model';
 })
 export class StudentListComponent implements OnInit {
   students: StudentModel[] = [];
-  page: number = 1;
-  searchTerm: string = '';
-  filteredStudents: StudentModel[] = [];
+  page = 1;
+  searchTerm = '';
   selectedStudent: StudentModel | null = null;
+  studentToDelete: StudentModel | null = null;
 
   constructor(
     private studentService: StudentService,
@@ -25,57 +25,75 @@ export class StudentListComponent implements OnInit {
     this.loadStudents();
   }
 
-  loadStudents() {
+  loadStudents(): void {
     this.studentService.getStudents().subscribe(data => {
       this.students = data;
-      this.filteredStudents = data;
     });
   }
 
-  filterStudents() {
-    this.filteredStudents = this.students.filter(student =>
-      student.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+  get filteredStudents(): StudentModel[] {
+    if (!this.searchTerm) return this.students;
+    const lower = this.searchTerm.toLowerCase();
+    return this.students.filter(student =>
+      student.name.toLowerCase().includes(lower) ||
+      student.email.toLowerCase().includes(lower)
     );
   }
 
-  handleAddStudent(student: StudentModel) {
+  handleAddStudent(student: StudentModel): void {
     this.studentService.addStudent(student).subscribe(() => {
       this.loadStudents();
     });
   }
 
-  goToDetail(studentId: string) {
-    // console.log('goToDetail:', studentId);
+  goToDetail(studentId: string): void {
     this.router.navigate(['/students', studentId]);
   }
 
-  exportCSV() {
+  openDeleteModal(student: StudentModel, event: any): void {
+    event.stopPropagation();
+    this.studentToDelete = student;
+    const modal = new (window as any).bootstrap.Modal(document.getElementById('confirmModal'));
+    modal.show();
+  }
+
+
+  confirmDelete(): void {
+    if (!this.studentToDelete) return;
+    this.studentService.deleteStudent(this.studentToDelete.id).subscribe(() => {
+      this.loadStudents();
+      this.studentToDelete = null;
+
+      const modalEl = document.getElementById('deleteModal');
+      const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+      modal.hide();
+    });
+  }
+
+  exportCSV(): void {
     const header = ['ID', 'Tên', 'Email', 'Địa chỉ', 'Ngày sinh', 'Số điện thoại'];
     const rows = this.filteredStudents.map(s => [
       s.id, s.name, s.email, s.address, s.dateOfBirth, s.phone
     ]);
 
-    // Thêm BOM: \uFEFF
-    let csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF"
       + [header, ...rows].map(e => e.join(",")).join("\n");
 
-    const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "students.csv");
-    document.body.appendChild(link);
+    link.href = encodeURI(csvContent);
+    link.download = "students.csv";
     link.click();
   }
-  openEdit(student: StudentModel) {
-    this.selectedStudent = { ...student }; // clone
+
+  openEdit(student: StudentModel,  event: any): void {
+    event.stopPropagation();
+    this.selectedStudent = {...student};
   }
 
-  handleUpdate(updatedStudent: StudentModel) {
-    this.studentService.updateStudent(updatedStudent).subscribe(res => {
-      const index = this.students.findIndex(s => s.id === res.id);
-      if (index !== -1) this.students[index] = res;
+  handleUpdate(updatedStudent: StudentModel): void {
+    this.studentService.updateStudent(updatedStudent).subscribe(() => {
+      this.loadStudents();
+      this.selectedStudent = null;
     });
   }
-
 }

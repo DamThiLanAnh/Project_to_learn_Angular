@@ -8,6 +8,7 @@ import {StudentFormComponent} from './student-form/student-form.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { StudentDetailComponent } from './student-detail/student-detail.component';
 import { StudentUpdateComponent } from './student-update/student-update.component';
+import {SharedModule} from '../shared/shared.module';
 @NgModule({
   declarations: [StudentListComponent, StudentFormComponent, StudentDetailComponent, StudentUpdateComponent],
   imports: [
@@ -16,7 +17,8 @@ import { StudentUpdateComponent } from './student-update/student-update.componen
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    SharedModule
   ],
   exports: [StudentListComponent, StudentFormComponent, StudentDetailComponent]
 })
