@@ -1,39 +1,56 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Danh sách sinh viên</h2>
+  <button class="btn btn-outline-info mb-3" style="border: none" (click)="exportCSV()">Export CSV</button>
+  <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+    Add student
+  </button>
 
-  <app-student-form (add)="handleAddStudent($event)"></app-student-form>
-
-  <div class="mb-3">
-    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên hoặc email"
-           [(ngModel)]="searchTerm">
+  <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addStudentModalLabel">Add new student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
+        <div class="modal-body">
+          <app-student-form (add)="handleAddStudent($event)"></app-student-form>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="mb-3">
-    <button class="btn btn-success" (click)="exportCSV()">Export CSV</button>
+  <div class="mb-3 mt-3 d-flex justify-content-center">
+    <div class="input-group" style="width: 800px;">
+      <span class="input-group-text">
+        <i class="bi bi-search"></i>
+      </span>
+      <input type="text" class="form-control" placeholder="Search for a student by name or email"
+             style="height: 50px;"
+             [(ngModel)]="searchTerm">
+    </div>
   </div>
 
-  <table class="table table-bordered table-striped">
-    <thead class="table-dark">
+  <table class="table table-striped">
+    <thead class="table-light text-center">
     <tr>
       <th>ID</th>
-      <th>Tên</th>
-      <th>Email</th>
       <th>Avatar</th>
-      <th>Địa chỉ</th>
-      <th>Ngày sinh</th>
-      <th>Số điện thoại</th>
-      <th>Hành động</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>Phone</th>
+      <th>Activity</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 10, currentPage: page }"
+    <tr *ngFor="let student of filteredStudents | paginate: { itemsPerPage: 15, currentPage: page }"
         (click)="goToDetail(student.id)">
       <td style="cursor: pointer;">{{ student.id }}</td>
-      <td style="cursor: pointer;">{{ student.name }}</td>
-      <td style="cursor: pointer;">{{ student.email }}</td>
       <td style="cursor: pointer;">
         <img [src]="student.avatar" alt="Avatar" width="50" height="50" class="rounded"/>
       </td>
+      <td style="cursor: pointer;">{{ student.name }}</td>
+      <td style="cursor: pointer;">{{ student.email }}</td>
       <td style="cursor: pointer;">{{ student.address }}</td>
       <td style="cursor: pointer;">{{ student.dateOfBirth }}</td>
       <td style="cursor: pointer;">{{ student.phone }}</td>
@@ -44,12 +61,16 @@
     </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
   <app-confirm-dialog
-    [title]="'Xoá sinh viên'"
-    [message]="'Bạn có chắc chắn muốn xoá sinh viên này không?'"
-    [confirmText]="'Xoá'"
-    [cancelText]="'Hủy'"
+    [title]="'Delete student'"
+    [message]="'Are you sure you want to delete this student?'"
+    [confirmText]="'Delete'"
+    [cancelText]="'No'"
     (confirm)="confirmDelete()"
   ></app-confirm-dialog>
+
+  <app-student-update [student]="selectedStudent" (update)="handleUpdate($event)"></app-student-update>
 
 </div>

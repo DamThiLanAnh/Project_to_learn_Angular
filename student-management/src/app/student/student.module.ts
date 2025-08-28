@@ -20,7 +20,7 @@ import {SharedModule} from '../shared/shared.module';
     NgxPaginationModule,
     SharedModule
   ],
-  exports: [StudentListComponent, StudentFormComponent, StudentDetailComponent]
+  exports: [StudentListComponent, StudentFormComponent, StudentDetailComponent, StudentUpdateComponent]
 })
 export class StudentModule {
 }

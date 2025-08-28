@@ -43,6 +43,9 @@ export class StudentListComponent implements OnInit {
   handleAddStudent(student: StudentModel): void {
     this.studentService.addStudent(student).subscribe(() => {
       this.loadStudents();
+      const modalEl = document.getElementById('addStudentModal');
+      const modal = (window as any).bootstrap.Modal.getInstance(modalEl);
+      modal.hide();
     });
   }
 
@@ -87,6 +90,7 @@ export class StudentListComponent implements OnInit {
 
   openEdit(student: StudentModel,  event: any): void {
     event.stopPropagation();
+    // console.log(student)
     this.selectedStudent = {...student};
   }
 
